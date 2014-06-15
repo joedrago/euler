@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Project Euler: joedrago</title>
+  <link rel="stylesheet" href="ext/qunit-1.14.0.css" type="text/css" media="screen">
+</head>
+<body>
+  <h1 id="qunit-header">QUnit Tests</h1>
+  <h2 id="qunit-banner"></h2>
+  <div id="qunit-testrunner-toolbar"></div>
+  <h2 id="qunit-userAgent"></h2>
+  <ol id="qunit-tests"></ol>
+  <div id="qunit-fixture">
+  </div>
+  <script type="text/javascript" src="ext/qunit-1.14.0.js"></script>
+  <script type="text/javascript" src="ext/coffee-script.js"></script>
+  <script type="text/coffeescript">
+    for testIndex in [1..1]
+      filePath = "src/e#{('000'+testIndex).slice(-3)}.coffee"
+      CoffeeScript.load(filePath)
+  </script>
+</body>
+</html>
