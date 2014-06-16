@@ -14,7 +14,6 @@ find the sum of the even-valued terms.
 """
 
 test problem.title, ->
-
   fprev = 1
   fcurr = 1
 
@@ -27,4 +26,6 @@ test problem.title, ->
     fprev = fcurr
     fcurr = fnext
 
-  ok(true, "Answer: Sum of even Fibonacci numbers <4000000: #{sum}")
+  equal(sum, 4613732, "Sum of even Fibonacci numbers <4000000: #{sum}")
+
+  ok(true, "Answer: #{sum}")
