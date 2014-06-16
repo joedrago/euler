@@ -10,4 +10,18 @@ What is the smallest positive number that is evenly divisible by all of the numb
 """
 
 test problem.title, ->
-  ok(true, "Answer: Unknown (stub)")
+
+  n = 0
+  loop
+    n += 20 # Probably could be some clever sum of primes between 1-20 or something. I don't care.
+    found = true
+    for i in [1..20]
+      if (n % i) != 0
+        found = false
+        break
+
+    break if found
+
+  equal(n, 232792560, "smallest number that can be evenly divided by 1 to 20: #{n}")
+
+  ok(true, "Answer: #{n}")

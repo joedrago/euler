@@ -9,5 +9,30 @@ Find the largest palindrome made from the product of two 3-digit numbers.
 
 """
 
+isPalindrome = (n) ->
+  str = n.toString()
+  for i in [0...(str.length / 2)]
+    if str[i] != str[str.length - 1 - i]
+      return false
+  return true
+
 test problem.title, ->
-  ok(true, "Answer: Unknown (stub)")
+  for v in [1, 11, 121, 1221, 12321, 1234321]
+    equal(isPalindrome(v), true, "isPalindrome(#{v}) returns true")
+  for v in [12, 123, 1234, 12345, 123456, 12324]
+    equal(isPalindrome(v), false, "isPalindrome(#{v}) returns false")
+
+  largesti = 0
+  largestj = 0
+  largestp = 0
+  for i in [100..999]
+    for j in [100..999]
+      product = i * j
+      if isPalindrome(product)
+        largesti = i
+        largestj = j
+        largestp = product
+
+  equal(largestp, 580085, "Largest palindrome made from product of two 3 digit numbers: #{largestp} (#{largesti} x #{largestj})")
+
+  ok(true, "Answer: #{largestp}")
