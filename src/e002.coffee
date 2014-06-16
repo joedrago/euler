@@ -14,4 +14,17 @@ find the sum of the even-valued terms.
 """
 
 test problem.title, ->
-  ok(true, "Answer: Unknown (stub)")
+
+  fprev = 1
+  fcurr = 1
+
+  sum = 0
+  while fcurr < 4000000
+    if (fcurr % 2) == 0
+      sum += fcurr
+
+    fnext = fcurr + fprev
+    fprev = fcurr
+    fcurr = fnext
+
+  ok(true, "Answer: Sum of even Fibonacci numbers <4000000: #{sum}")
