@@ -16,6 +16,16 @@
   <script type="text/javascript" src="ext/qunit-1.14.0.js"></script>
   <script type="text/javascript" src="ext/coffee-script.js"></script>
   <script type="text/coffeescript">
+
+    class Problem
+      constructor: (@description) ->
+        lines = @description.split(/\n/)
+        lines.shift() while lines.length > 0 and lines[0].length == 0
+        @title = lines[0]
+
+    root = exports ? this
+    root.Problem = Problem
+
     lastPuzzle = 5
     nextIndex = 0
 
