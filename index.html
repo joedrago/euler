@@ -16,7 +16,7 @@
   <script type="text/javascript" src="ext/qunit-1.14.0.js"></script>
   <script type="text/javascript" src="ext/coffee-script.js"></script>
   <script type="text/coffeescript">
-    for testIndex in [1..1]
+    for testIndex in [1..5]
       filePath = "src/e#{('000'+testIndex).slice(-3)}.coffee"
       CoffeeScript.load(filePath)
   </script>
