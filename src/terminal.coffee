@@ -113,6 +113,8 @@ root.onCommand = (command) =>
     test: false
     answer: false
 
+  process = true
+
   for arg in cmd.args
     arg = String(arg)
     continue if arg.length < 1
@@ -122,12 +124,13 @@ root.onCommand = (command) =>
       v = parseInt(arg)
       if (v >= 1) and (v <= LAST_PROBLEM)
         args.list.push(v)
+      else
+        process = false
+        window.terminal.echo "[[;#ffaaaa;]No such test: #{v} (valid tests 1-#{LAST_PROBLEM)]"
 
   if args.list.length == 0
     args.startIndex = 1
     args.endIndex = LAST_PROBLEM
-
-  process = true
 
   # Since all of our commands happen to have unique first letters, let people be super lazy/silly
   if cmd.name[0] == 'l'
