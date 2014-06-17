@@ -16,7 +16,8 @@ isPalindrome = (n) ->
       return false
   return true
 
-test problem.title, ->
+problem.run ->
+  # Make sure isPalindrome works properly first
   for v in [1, 11, 121, 1221, 12321, 1234321]
     equal(isPalindrome(v), true, "isPalindrome(#{v}) returns true")
   for v in [12, 123, 1234, 12345, 123456, 12324]
@@ -25,6 +26,7 @@ test problem.title, ->
   largesti = 0
   largestj = 0
   largestp = 0
+
   for i in [100..999]
     for j in [100..999]
       product = i * j
@@ -33,6 +35,4 @@ test problem.title, ->
         largestj = j
         largestp = product
 
-  equal(largestp, 580085, "Largest palindrome made from product of two 3 digit numbers: #{largestp} (#{largesti} x #{largestj})")
-
-  ok(true, "Answer: #{largestp}")
+  return largestp

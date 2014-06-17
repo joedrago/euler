@@ -6,6 +6,28 @@ class Problem
     lines.shift() while lines.length > 0 and lines[0].length == 0
     @title = lines[0]
 
+  now: ->
+    return if window.performance then window.performance.now() else new Date().getTime()
+
+  run: (funcs) ->
+    test @title, =>
+      if funcs.hasOwnProperty 'test'
+        mainFunc = funcs.main
+        testFunc = funcs.test
+      else
+        mainFunc = funcs
+        testFunc = undefined
+
+      if testFunc != undefined
+        testFunc()
+
+      start = @now()
+      answer = mainFunc()
+      end = @now()
+      ms = end - start
+
+      ok(true, "Answer (#{ms.toFixed(1)}ms): #{JSON.stringify(answer)}")
+
 root.Problem = Problem
 
 # Sieve was blindly taken/adapted from RosettaCode. DONT EVEN CARE

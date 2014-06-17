@@ -21,11 +21,9 @@ primeSum = (ceiling) ->
 
   return sum
 
-test problem.title, ->
+problem.run
+  test: ->
+    equal(primeSum(10), 17, "Sum of primes below 10 is 17")
 
-  equal(primeSum(10), 17, "Sum of primes below 10 is 17")
-
-  twomil = primeSum(2000000)
-  equal(twomil, 142913828922, "Sum of primes below 2,000,000 is 142,913,828,922")
-
-  ok(true, "Answer: #{twomil}")
+  main: ->
+    return primeSum(2000000)

@@ -15,9 +15,9 @@ nthPrime = (n) ->
     sieve.next()
   return sieve.next()
 
-test problem.title, ->
-  equal(nthPrime(6), 13, "6th prime is 13")
+problem.run
+  test: ->
+    equal(nthPrime(6), 13, "6th prime is 13")
 
-  prime10001 = nthPrime(10001)
-  equal(prime10001, 104743, "10,001st prime is 104743")
-  ok(true, "Answer: #{prime10001}")
+  main: ->
+    return nthPrime(10001)

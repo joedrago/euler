@@ -62,8 +62,5 @@ largestPrimeFactor = (n) ->
     n /= factor
   return n
 
-test problem.title, ->
-  largest = largestPrimeFactor(600851475143)
-  equal(largest, 6857, "largest prime factor of 600851475143: " + largest)
-
-  ok(true, "Answer: #{largest}")
+problem.run ->
+  return largestPrimeFactor(600851475143)

@@ -72,12 +72,10 @@ largestProduct = (digitCount) ->
 
   return largest
 
-test problem.title, ->
-  createDigits()
+problem.run
+  test: ->
+    createDigits()
+    equal(largestProduct(4), 5832, "Greatest product of 4 adjacent digits is 5832")
 
-  equal(largestProduct(4), 5832, "Greatest product of 4 adjacent digits is 5832")
-
-  largest = largestProduct(13)
-  equal(largest, 23514624000, "Greatest product of 13 adjacent digits is 23514624000")
-
-  ok(true, "Answer: #{largest}")
+  main: ->
+    return largestProduct(13)

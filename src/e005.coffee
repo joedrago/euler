@@ -9,7 +9,7 @@ What is the smallest positive number that is evenly divisible by all of the numb
 
 """
 
-test problem.title, ->
+problem.run ->
 
   n = 0
   loop
@@ -22,6 +22,4 @@ test problem.title, ->
 
     break if found
 
-  equal(n, 232792560, "smallest number that can be evenly divided by 1 to 20: #{n}")
-
-  ok(true, "Answer: #{n}")
+  return n

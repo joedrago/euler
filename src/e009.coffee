@@ -28,12 +28,9 @@ findFirstTriplet = (sum) ->
   return false
 
 
-test problem.title, ->
+problem.run
+  test: ->
+    ok(isTriplet(3, 4, 5), "(3,4,5) is a Pythagorean triplet")
 
-  ok(isTriplet(3, 4, 5), "(3,4,5) is a Pythagorean triplet")
-
-  triplet = findFirstTriplet(1000)
-
-  deepEqual(triplet, [200, 375, 425], "Pythagorean triplet whose sum is 1000: " + JSON.stringify(triplet))
-
-  ok(true, "Answer: " + JSON.stringify(triplet))
+  main: ->
+    return findFirstTriplet(1000)
