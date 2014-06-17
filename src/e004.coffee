@@ -16,23 +16,25 @@ isPalindrome = (n) ->
       return false
   return true
 
-problem.run ->
-  # Make sure isPalindrome works properly first
-  for v in [1, 11, 121, 1221, 12321, 1234321]
-    equal(isPalindrome(v), true, "isPalindrome(#{v}) returns true")
-  for v in [12, 123, 1234, 12345, 123456, 12324]
-    equal(isPalindrome(v), false, "isPalindrome(#{v}) returns false")
+problem.run
+  test: ->
+    # Make sure isPalindrome works properly first
+    for v in [1, 11, 121, 1221, 12321, 1234321]
+      equal(isPalindrome(v), true, "isPalindrome(#{v}) returns true")
+    for v in [12, 123, 1234, 12345, 123456, 12324]
+      equal(isPalindrome(v), false, "isPalindrome(#{v}) returns false")
 
-  largesti = 0
-  largestj = 0
-  largestp = 0
+  answer: ->
+    largesti = 0
+    largestj = 0
+    largestp = 0
 
-  for i in [100..999]
-    for j in [100..999]
-      product = i * j
-      if isPalindrome(product)
-        largesti = i
-        largestj = j
-        largestp = product
+    for i in [100..999]
+      for j in [100..999]
+        product = i * j
+        if isPalindrome(product)
+          largesti = i
+          largestj = j
+          largestp = product
 
-  return largestp
+    return largestp

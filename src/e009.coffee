@@ -32,5 +32,5 @@ problem.run
   test: ->
     equal(isTriplet(3, 4, 5), true, "(3,4,5) is a Pythagorean triplet")
 
-  main: ->
+  answer: ->
     return findFirstTriplet(1000)

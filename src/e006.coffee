@@ -38,5 +38,5 @@ problem.run
     equal(squareOfSum(10), 3025, "Square of sum of first ten natural numbers is 3025")
     equal(differenceSumSquares(10), 2640, "Difference in values for the first ten natural numbers is 2640")
 
-  main: ->
+  answer: ->
     return differenceSumSquares(100)

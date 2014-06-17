@@ -39,7 +39,7 @@ body {
     font-size: 14px;
 }
 #term {
-  height: 100%;
+  height: 95%;
 }
 </style>
 </head>
@@ -51,17 +51,28 @@ body {
     window.terminal = $('#term').terminal(function(command, terminal) { window.onCommand(command); }, {
       prompt: 'euler> ',
       name: 'test',
-      greetings: "Project Euler: Joe Drago\n\n",
+      greetings: "Project Euler: Joe Drago\n",
       exit: false,
-      completion: ['help', 'run']
+      completion: ['help', 'run', 'test', 'answer', 'describe', 'list']
     });
   }
   </script>
   <script type="text/coffeescript">
+    # from http://css-tricks.com/snippets/javascript/get-url-variables/
+    getQueryVariable = (variable, def) ->
+      query = window.location.search.substring(1)
+      vars = query.split("&")
+      for pairText in vars
+        pair = pairText.split("=")
+        if pair[0] == variable
+          return unescape(pair[1])
+      return def
 
     startup = ->
       createTerminal()
-      window.onCommand("run")
+
+      firstCommand = getQueryVariable("c", "help")
+      window.onCommand(firstCommand)
 
     CoffeeScript.load("src/shared.coffee", startup)
   </script>

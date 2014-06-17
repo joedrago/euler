@@ -1,3 +1,5 @@
+LAST_PROBLEM = 10
+
 root = exports ? this
 
 root.escapedStringify = (o) ->
@@ -6,7 +8,7 @@ root.escapedStringify = (o) ->
   return str
 
 root.runAll = ->
-  lastPuzzle = 10
+  lastPuzzle = LAST_PROBLEM
   nextIndex = 0
 
   loadNextScript = ->
@@ -15,39 +17,161 @@ root.runAll = ->
       runTest(nextIndex, loadNextScript)
   loadNextScript()
 
+root.iterateProblems = (args) ->
+
+  indexToProcess = null
+  if args.endIndex > 0
+    if args.startIndex <= args.endIndex
+      indexToProcess = args.startIndex
+      args.startIndex++
+  else
+    if args.list.length > 0
+      indexToProcess = args.list.shift()
+
+  if indexToProcess != null
+    iterateNext = ->
+      window.args = args
+      runTest indexToProcess, ->
+        iterateProblems(args)
+    iterateNext()
+
 root.runTest = (index, cb) ->
   filePath = "src/e#{('000'+index).slice(-3)}.coffee"
+  window.index = index
   CoffeeScript.load(filePath, cb)
 
 class Problem
   constructor: (@description) ->
+    @index = window.index
     lines = @description.split(/\n/)
     lines.shift() while lines.length > 0 and lines[0].length == 0
-    @title = lines[0]
+    @title = lines.shift()
+    @line = lines.shift()
+    @description = lines.join("\n")
 
   now: ->
     return if window.performance then window.performance.now() else new Date().getTime()
 
   run: (funcs) ->
-    test @title, =>
-      if funcs.hasOwnProperty 'test'
-        mainFunc = funcs.main
-        testFunc = funcs.test
-      else
-        mainFunc = funcs
-        testFunc = undefined
+    if window.args.description
+      window.terminal.echo "[[;#444444;]_______________________________________________________________________________________________]\n"
 
-      if testFunc != undefined
+    formattedTitle = $.terminal.format("[[;#ffaa00;]#{@title}]")
+    window.terminal.echo "<a href=\"?c=#{window.args.cmd}%20#{@index}\">#{formattedTitle}</a>", { raw: true }
+
+    if window.args.description
+      window.terminal.echo "[[;#444444;]#{@line}]"
+      window.terminal.echo "[[;#ccccee;]#{@description}]\n"
+
+    if funcs.hasOwnProperty 'test'
+      answerFunc = funcs.answer
+      testFunc = funcs.test
+    else
+      answerFunc = funcs
+      testFunc = undefined
+
+    if window.args.test
+      if testFunc == undefined
+        window.terminal.echo "[[;#444444;] (no tests)]"
+      else
         testFunc()
 
+    if window.args.answer
       start = @now()
-      answer = mainFunc()
+      answer = answerFunc()
       end = @now()
       ms = end - start
-
       window.terminal.echo "[[;#ffffff;] -> ][[;#aaffaa;]Answer:] ([[;#aaffff;]#{ms.toFixed(1)}ms]): [[;#ffffff;]#{escapedStringify(answer)}]"
 
 root.Problem = Problem
+
+root.ok = (v, msg) ->
+  window.terminal.echo "[[;#ffffff;] *  ]#{v}: #{msg}"
+
+root.equal = (a, b, msg) ->
+  if a == b
+    window.terminal.echo "[[;#ffffff;] *  ][[;#555555;]#{msg}]"
+  else
+    window.terminal.echo "[[;#ffffff;] *  ][[;#ffaaaa;]#{msg}]"
+
+root.onCommand = (command) =>
+  return if command.length == 0
+  cmd = $.terminal.parseCommand(command)
+  return if cmd.name.length == 0
+
+  console.log cmd
+
+  verbose = false
+
+  args =
+    startIndex: 0
+    endIndex: 0
+    list: []
+    description: false
+    test: false
+    answer: false
+
+  for arg in cmd.args
+    arg = String(arg)
+    continue if arg.length < 1
+    if arg[0] == 'v'
+      verbose = true
+    else if arg.match(/^\d+$/)
+      v = parseInt(arg)
+      if (v >= 1) and (v <= LAST_PROBLEM)
+        args.list.push(v)
+
+  if args.list.length == 0
+    args.startIndex = 1
+    args.endIndex = LAST_PROBLEM
+
+  process = true
+
+  # Since all of our commands happen to have unique first letters, let people be super lazy/silly
+  if cmd.name[0] == 'l'
+    args.cmd = "list"
+  else if cmd.name[0] == 'd'
+    args.cmd = "describe"
+    args.description = true
+  else if cmd.name[0] == 't'
+    args.cmd = "test"
+    args.test = true
+  else if cmd.name[0] == 'a'
+    args.cmd = "answer"
+    args.answer = true
+  else if cmd.name[0] == 'r'
+    args.cmd = "run"
+    args.test = true
+    args.answer = true
+  else if cmd.name[0] == 'd'
+    args.cmd = "describe"
+    args.description = true
+  else if cmd.name[0] == 'h'
+    args.cmd = "help"
+    process = false
+    window.terminal.echo """
+    Commands:
+
+        list [X]     - List problem titles
+        describe [X] - Display full problem descriptions
+        test [X]     - Run unit tests
+        answer [X]   - Time and calculate answer
+        run [X]      - test and answer combined
+        help         - This help
+
+        In all of these, [X] can be a list of one or more problem numbers. (a value from 1 to #{LAST_PROBLEM}). If absent, it implies all problems.
+        Also, adding the word "verbose" to some of these commands will emit the description before performing the task.
+
+    """
+  else
+    process = false
+    window.terminal.echo "[[;#ffaaaa;]Unknown command.]"
+
+  if verbose
+    args.description = true
+
+  if process
+    iterateProblems(args)
 
 # Sieve was blindly taken/adapted from RosettaCode. DONT EVEN CARE
 class IncrementalSieve
@@ -88,27 +212,3 @@ class IncrementalSieve
         return @next()
 
 root.IncrementalSieve = IncrementalSieve
-
-root.ok = (v, msg) ->
-  window.terminal.echo "[[;#ffffff;] *  ]#{v}: #{msg}"
-
-root.equal = (a, b, msg) ->
-  if a == b
-    window.terminal.echo "[[;#ffffff;] *  ][[;#555555;]#{msg}]"
-  else
-    window.terminal.echo "[[;#ffffff;] *  ][[;#ffaaaa;]#{msg}]"
-
-root.test = (title, func) ->
-  window.terminal.echo "[[;#ffaa00;]#{title}]"
-  func()
-
-root.onCommand = (command) =>
-  return if command.length == 0
-  matches = command.match(/^run(?:\s+(\d+))?/)
-  if matches
-    if matches[1] != undefined
-      runTest parseInt(matches[1])
-    else
-      runAll()
-  else
-    window.terminal.echo "[[;#ffaaaa;]Unknown command.]"

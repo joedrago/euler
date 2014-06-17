@@ -19,5 +19,5 @@ problem.run
   test: ->
     equal(nthPrime(6), 13, "6th prime is 13")
 
-  main: ->
+  answer: ->
     return nthPrime(10001)
