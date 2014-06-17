@@ -126,7 +126,7 @@ root.onCommand = (command) =>
         args.list.push(v)
       else
         process = false
-        window.terminal.echo "[[;#ffaaaa;]No such test: #{v} (valid tests 1-#{LAST_PROBLEM)]"
+        window.terminal.echo "[[;#ffaaaa;]No such test: #{v} (valid tests 1-#{LAST_PROBLEM})]"
 
   if args.list.length == 0
     args.startIndex = 1
