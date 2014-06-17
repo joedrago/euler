@@ -1,5 +1,24 @@
 root = exports ? this
 
+root.escapedStringify = (o) ->
+  str = JSON.stringify(o)
+  str = str.replace("]", "\\]")
+  return str
+
+root.runAll = ->
+  lastPuzzle = 10
+  nextIndex = 0
+
+  loadNextScript = ->
+    if nextIndex < lastPuzzle
+      nextIndex++
+      runTest(nextIndex, loadNextScript)
+  loadNextScript()
+
+root.runTest = (index, cb) ->
+  filePath = "src/e#{('000'+index).slice(-3)}.coffee"
+  CoffeeScript.load(filePath, cb)
+
 class Problem
   constructor: (@description) ->
     lines = @description.split(/\n/)
@@ -26,7 +45,7 @@ class Problem
       end = @now()
       ms = end - start
 
-      ok(true, "Answer (#{ms.toFixed(1)}ms): #{JSON.stringify(answer)}")
+      window.terminal.echo "[[;#ffffff;] -> ][[;#aaffaa;]Answer:] ([[;#aaffff;]#{ms.toFixed(1)}ms]): [[;#ffffff;]#{escapedStringify(answer)}]"
 
 root.Problem = Problem
 
@@ -69,3 +88,27 @@ class IncrementalSieve
         return @next()
 
 root.IncrementalSieve = IncrementalSieve
+
+root.ok = (v, msg) ->
+  window.terminal.echo "[[;#ffffff;] *  ]#{v}: #{msg}"
+
+root.equal = (a, b, msg) ->
+  if a == b
+    window.terminal.echo "[[;#ffffff;] *  ][[;#555555;]#{msg}]"
+  else
+    window.terminal.echo "[[;#ffffff;] *  ][[;#ffaaaa;]#{msg}]"
+
+root.test = (title, func) ->
+  window.terminal.echo "[[;#ffaa00;]#{title}]"
+  func()
+
+root.onCommand = (command) =>
+  return if command.length == 0
+  matches = command.match(/^run(?:\s+(\d+))?/)
+  if matches
+    if matches[1] != undefined
+      runTest parseInt(matches[1])
+    else
+      runAll()
+  else
+    window.terminal.echo "[[;#ffaaaa;]Unknown command.]"

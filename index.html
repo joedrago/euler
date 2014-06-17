@@ -1,32 +1,69 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Project Euler: joedrago</title>
-  <link rel="stylesheet" href="ext/qunit-1.14.0.css" type="text/css" media="screen">
+  <meta charset="utf-8" />
+  <title>Project Euler: Joe Drago</title>
+  <script src="ext/jquery-1.7.1.min.js"></script>
+  <script src="ext/jquery.mousewheel-min.js"></script>
+  <script src="ext/jquery.terminal-min.js"></script>
+  <link href="ext/jquery.terminal.css" rel="stylesheet"/>
+<!--[if IE]>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+}
+.tilda {
+    position: absolute;
+}
+</style>
+<script>
+jQuery(document).ready(function($) {
+   $(window).scroll(function() {
+      $('.tilda').each(function() {
+         $(this).css({top: $('body').prop('scrollTop')});
+      });
+   });
+});
+</script>
+<![endif]-->
+<style>
+html {
+  height: 100%;
+}
+body {
+  background-color: black;
+  height: 100%;
+}
+.terminal, .cmd {
+    font-size: 14px;
+}
+#term {
+  height: 100%;
+}
+</style>
 </head>
 <body>
-  <h1 id="qunit-header">Project Euler: joedrago<br><a style="font-size: 0.6em" href="http://github.com/joedrago/euler">Source on GitHub</a></h1>
-  <h2 id="qunit-banner"></h2>
-  <div id="qunit-testrunner-toolbar"></div>
-  <h2 id="qunit-userAgent"></h2>
-  <ol id="qunit-tests"></ol>
-  <div id="qunit-fixture">
-  </div>
-  <script type="text/javascript" src="ext/qunit-1.14.0.js"></script>
+  <div id="term"></div>
   <script type="text/javascript" src="ext/coffee-script.js"></script>
+  <script type="text/javascript">
+  function createTerminal() {
+    window.terminal = $('#term').terminal(function(command, terminal) { window.onCommand(command); }, {
+      prompt: 'euler> ',
+      name: 'test',
+      greetings: "Project Euler: Joe Drago\n\n",
+      exit: false,
+      completion: ['help', 'run']
+    });
+  }
+  </script>
   <script type="text/coffeescript">
 
-    lastPuzzle = 10
-    nextIndex = 0
+    startup = ->
+      createTerminal()
+      window.onCommand("run")
 
-    loadNextScript = ->
-      if nextIndex < lastPuzzle
-        nextIndex++
-        filePath = "src/e#{('000'+nextIndex).slice(-3)}.coffee"
-        CoffeeScript.load(filePath, loadNextScript)
-
-    CoffeeScript.load("src/shared.coffee", loadNextScript)
+    CoffeeScript.load("src/shared.coffee", startup)
   </script>
 </body>
 </html>

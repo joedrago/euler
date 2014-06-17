@@ -30,7 +30,7 @@ findFirstTriplet = (sum) ->
 
 problem.run
   test: ->
-    ok(isTriplet(3, 4, 5), "(3,4,5) is a Pythagorean triplet")
+    equal(isTriplet(3, 4, 5), true, "(3,4,5) is a Pythagorean triplet")
 
   main: ->
     return findFirstTriplet(1000)
