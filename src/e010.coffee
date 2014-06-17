@@ -1,4 +1,4 @@
-problem = new Problem """
+module.exports = problem = new Problem """
 
 Problem 10: Summation of primes
 -------------------------------
@@ -21,7 +21,7 @@ primeSum = (ceiling) ->
 
   return sum
 
-problem.run
+problem.run =
   test: ->
     equal(primeSum(10), 17, "Sum of primes below 10 is 17")
 

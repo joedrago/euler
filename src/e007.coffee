@@ -1,4 +1,4 @@
-problem = new Problem """
+module.exports = problem = new Problem """
 
 Problem 7: 10001st prime
 ------------------------
@@ -15,7 +15,7 @@ nthPrime = (n) ->
     sieve.next()
   return sieve.next()
 
-problem.run
+problem.run =
   test: ->
     equal(nthPrime(6), 13, "6th prime is 13")
 

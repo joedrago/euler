@@ -1,4 +1,4 @@
-problem = new Problem """
+module.exports = problem = new Problem """
 
 Problem 6: Sum square difference
 --------------------------------
@@ -32,7 +32,7 @@ squareOfSum = (n) ->
 differenceSumSquares = (n) ->
   return squareOfSum(n) - sumOfSquares(n)
 
-problem.run
+problem.run =
   test: ->
     equal(sumOfSquares(10), 385, "Sum of squares of first ten natural numbers is 385")
     equal(squareOfSum(10), 3025, "Square of sum of first ten natural numbers is 3025")

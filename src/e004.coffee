@@ -1,4 +1,4 @@
-problem = new Problem """
+module.exports = problem = new Problem """
 
 Problem 4: Largest palindrome product
 -------------------------------------
@@ -16,7 +16,7 @@ isPalindrome = (n) ->
       return false
   return true
 
-problem.run
+problem.run =
   test: ->
     # Make sure isPalindrome works properly first
     for v in [1, 11, 121, 1221, 12321, 1234321]

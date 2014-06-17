@@ -1,4 +1,4 @@
-problem = new Problem """
+module.exports = problem = new Problem """
 
 Problem 8: Largest product in a series
 --------------------------------------
@@ -69,7 +69,7 @@ largestProduct = (digitCount) ->
 
   return largest
 
-problem.run
+problem.run =
   test: ->
     equal(largestProduct(4), 5832, "Greatest product of 4 adjacent digits is 5832")
 

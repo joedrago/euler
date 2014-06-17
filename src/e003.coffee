@@ -1,4 +1,4 @@
-problem = new Problem """
+module.exports = problem = new Problem """
 
 Problem 3: Largest prime factor
 -------------------------------
@@ -62,5 +62,5 @@ largestPrimeFactor = (n) ->
     n /= factor
   return n
 
-problem.run ->
+problem.run = ->
   return largestPrimeFactor(600851475143)

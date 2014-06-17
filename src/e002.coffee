@@ -1,4 +1,4 @@
-problem = new Problem """
+module.exports = problem = new Problem """
 
 Problem 2: Even Fibonacci numbers
 ---------------------------------
@@ -13,7 +13,7 @@ find the sum of the even-valued terms.
 
 """
 
-problem.run ->
+problem.run = ->
 
   prev = 1
   curr = 1

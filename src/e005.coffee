@@ -1,4 +1,4 @@
-problem = new Problem """
+module.exports = problem = new Problem """
 
 Problem 5: Smallest multiple
 ----------------------------
@@ -9,7 +9,7 @@ What is the smallest positive number that is evenly divisible by all of the numb
 
 """
 
-problem.run ->
+problem.run = ->
 
   n = 0
   loop

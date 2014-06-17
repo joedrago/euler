@@ -1,6 +1,6 @@
 LAST_PROBLEM = 10
 
-root = exports ? this
+root = window # exports ? this
 
 root.escapedStringify = (o) ->
   str = JSON.stringify(o)
@@ -36,9 +36,11 @@ root.iterateProblems = (args) ->
     iterateNext()
 
 root.runTest = (index, cb) ->
-  filePath = "src/e#{('000'+index).slice(-3)}.coffee"
+  moduleName = "e#{('000'+index).slice(-3)}"
   window.index = index
-  CoffeeScript.load(filePath, cb)
+  problem = require(moduleName)
+  problem.process()
+  window.setTimeout(cb, 0) if cb
 
 class Problem
   constructor: (@description) ->
@@ -52,7 +54,7 @@ class Problem
   now: ->
     return if window.performance then window.performance.now() else new Date().getTime()
 
-  run: (funcs) ->
+  process: ->
     if window.args.description
       window.terminal.echo "[[;#444444;]_______________________________________________________________________________________________]\n"
 
@@ -63,11 +65,11 @@ class Problem
       window.terminal.echo "[[;#444444;]#{@line}]"
       window.terminal.echo "[[;#ccccee;]#{@description}]\n"
 
-    if funcs.hasOwnProperty 'test'
-      answerFunc = funcs.answer
-      testFunc = funcs.test
+    if @run.hasOwnProperty 'test'
+      answerFunc = @run.answer
+      testFunc = @run.test
     else
-      answerFunc = funcs
+      answerFunc = @run
       testFunc = undefined
 
     if window.args.test

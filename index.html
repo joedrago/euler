@@ -46,6 +46,7 @@ body {
 <body>
   <div id="term"></div>
   <script type="text/javascript" src="ext/coffee-script.js"></script>
+  <script type="text/javascript" src="js/euler.js"></script>
   <script type="text/javascript">
   function createTerminal() {
     window.terminal = $('#term').terminal(function(command, terminal) { window.onCommand(command); }, {
@@ -74,7 +75,8 @@ body {
       firstCommand = getQueryVariable("c", "help")
       window.onCommand(firstCommand)
 
-    CoffeeScript.load("src/shared.coffee", startup)
+    require("shared")
+    startup()
   </script>
 </body>
 </html>

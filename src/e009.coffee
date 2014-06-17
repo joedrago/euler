@@ -1,4 +1,4 @@
-problem = new Problem """
+module.exports = problem = new Problem """
 
 Problem 9: Special Pythagorean triplet
 --------------------------------------
@@ -28,7 +28,7 @@ findFirstTriplet = (sum) ->
   return false
 
 
-problem.run
+problem.run =
   test: ->
     equal(isTriplet(3, 4, 5), true, "(3,4,5) is a Pythagorean triplet")
 
