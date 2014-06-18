@@ -62,5 +62,5 @@ largestPrimeFactor = (n) ->
     n /= factor
   return n
 
-problem.run = ->
+problem.answer = ->
   return largestPrimeFactor(600851475143)

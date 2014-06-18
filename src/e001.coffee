@@ -10,18 +10,17 @@ Find the sum of all the multiples of 3 or 5 below 1000.
 
 """
 
-problem.run =
-  test: ->
-    sum = 0
-    for i in [1...10]
-      if (i % 3 == 0) or (i % 5 == 0)
-        sum += i
-    equal(sum, 23, "Sum of natural numbers < 10: #{sum}")
+problem.test = ->
+  sum = 0
+  for i in [1...10]
+    if (i % 3 == 0) or (i % 5 == 0)
+      sum += i
+  equal(sum, 23, "Sum of natural numbers < 10: #{sum}")
 
-  answer: ->
-    sum = 0
-    for i in [1...1000]
-      if (i % 3 == 0) or (i % 5 == 0)
-        sum += i
+problem.answer = ->
+  sum = 0
+  for i in [1...1000]
+    if (i % 3 == 0) or (i % 5 == 0)
+      sum += i
 
-    return sum
+  return sum

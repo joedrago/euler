@@ -32,11 +32,10 @@ squareOfSum = (n) ->
 differenceSumSquares = (n) ->
   return squareOfSum(n) - sumOfSquares(n)
 
-problem.run =
-  test: ->
-    equal(sumOfSquares(10), 385, "Sum of squares of first ten natural numbers is 385")
-    equal(squareOfSum(10), 3025, "Square of sum of first ten natural numbers is 3025")
-    equal(differenceSumSquares(10), 2640, "Difference in values for the first ten natural numbers is 2640")
+problem.test = ->
+  equal(sumOfSquares(10), 385, "Sum of squares of first ten natural numbers is 385")
+  equal(squareOfSum(10), 3025, "Square of sum of first ten natural numbers is 3025")
+  equal(differenceSumSquares(10), 2640, "Difference in values for the first ten natural numbers is 2640")
 
-  answer: ->
-    return differenceSumSquares(100)
+problem.answer = ->
+  return differenceSumSquares(100)

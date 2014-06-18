@@ -28,9 +28,8 @@ findFirstTriplet = (sum) ->
   return false
 
 
-problem.run =
-  test: ->
-    equal(isTriplet(3, 4, 5), true, "(3,4,5) is a Pythagorean triplet")
+problem.test = ->
+  equal(isTriplet(3, 4, 5), true, "(3,4,5) is a Pythagorean triplet")
 
-  answer: ->
-    return findFirstTriplet(1000)
+problem.answer = ->
+  return findFirstTriplet(1000)

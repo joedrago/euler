@@ -106,38 +106,36 @@ getLine = (sx, sy, dx, dy) ->
 
   return line
 
-problem.run =
-  test: ->
-    # Example is diagonal right/down from (8,6)
-    equal(getLineProduct(8, 6, 1, 1), 1788696, "Diagonal value shown in example equals 1,788,696")
+problem.test = ->
+  # Example is diagonal right/down from (8,6)
+  equal(getLineProduct(8, 6, 1, 1), 1788696, "Diagonal value shown in example equals 1,788,696")
 
-  answer: ->
+problem.answer = ->
+  max =
+    product: 1
+    i: 0
+    j: 0
+    dir: "right"
 
-    max =
-      product: 1
-      i: 0
-      j: 0
-      dir: "right"
+  for j in [0...20]
+    for i in [0...20]
+      p = getLineProduct(i, j, 1, 0)
+      if max.product < p
+        max.product = p
+        max.i = i
+        max.j = j
+        max.dir = "right"
+      p = getLineProduct(i, j, 0, 1)
+      if max.product < p
+        max.product = p
+        max.i = i
+        max.j = j
+        max.dir = "down"
+      p = getLineProduct(i, j, 1, 1)
+      if max.product < p
+        max.product = p
+        max.i = i
+        max.j = j
+        max.dir = "diagonal"
 
-    for j in [0...20]
-      for i in [0...20]
-        p = getLineProduct(i, j, 1, 0)
-        if max.product < p
-          max.product = p
-          max.i = i
-          max.j = j
-          max.dir = "right"
-        p = getLineProduct(i, j, 0, 1)
-        if max.product < p
-          max.product = p
-          max.i = i
-          max.j = j
-          max.dir = "down"
-        p = getLineProduct(i, j, 1, 1)
-        if max.product < p
-          max.product = p
-          max.i = i
-          max.j = j
-          max.dir = "diagonal"
-
-    return max
+  return max

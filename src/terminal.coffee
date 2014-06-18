@@ -59,18 +59,24 @@ class Problem
       window.terminal.echo "[[;#444444;]_______________________________________________________________________________________________]\n"
 
     formattedTitle = $.terminal.format("[[;#ffaa00;]#{@title}]")
-    window.terminal.echo "<a href=\"?c=#{window.args.cmd}%20#{@index}\">#{formattedTitle}</a>", { raw: true }
+    url = "?c=#{window.args.cmd}%20#{@index}"
+    if window.args.verbose
+      url += "%20verbose"
+    window.terminal.echo "<a href=\"#{url}\">#{formattedTitle}</a>", { raw: true }
 
     if window.args.description
       window.terminal.echo "[[;#444444;]#{@line}]"
       window.terminal.echo "[[;#ccccee;]#{@description}]\n"
+      sourceLine = $.terminal.format("[[;#444444;]Source:] ")
+      sourceLine += " <a href=\"src/e#{('000'+@index).slice(-3)}.coffee\">" + $.terminal.format("[[;#773300;]Local]") + "</a> "
+      sourceLine += $.terminal.format("[[;#444444;]/]")
+      sourceLine += " <a href=\"https://github.com/joedrago/euler/blob/master/src/e#{('000'+@index).slice(-3)}.coffee\">" + $.terminal.format("[[;#773300;]Github]") + "</a>"
+      window.terminal.echo sourceLine, { raw: true }
+      if window.args.test or window.args.answer
+        window.terminal.echo ""
 
-    if @run.hasOwnProperty 'test'
-      answerFunc = @run.answer
-      testFunc = @run.test
-    else
-      answerFunc = @run
-      testFunc = undefined
+    testFunc = @test
+    answerFunc = @answer
 
     if window.args.test
       if testFunc == undefined
@@ -101,14 +107,11 @@ root.onCommand = (command) =>
   cmd = $.terminal.parseCommand(command)
   return if cmd.name.length == 0
 
-  console.log cmd
-
-  verbose = false
-
   args =
     startIndex: 0
     endIndex: 0
     list: []
+    verbose: false
     description: false
     test: false
     answer: false
@@ -119,7 +122,7 @@ root.onCommand = (command) =>
     arg = String(arg)
     continue if arg.length < 1
     if arg[0] == 'v'
-      verbose = true
+      args.verbose = true
     else if arg.match(/^\d+$/)
       v = parseInt(arg)
       if (v >= 1) and (v <= LAST_PROBLEM)
@@ -172,7 +175,7 @@ root.onCommand = (command) =>
     process = false
     window.terminal.echo "[[;#ffaaaa;]Unknown command.]"
 
-  if verbose
+  if args.verbose
     args.description = true
 
   if process

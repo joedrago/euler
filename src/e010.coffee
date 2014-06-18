@@ -21,9 +21,8 @@ primeSum = (ceiling) ->
 
   return sum
 
-problem.run =
-  test: ->
-    equal(primeSum(10), 17, "Sum of primes below 10 is 17")
+problem.test = ->
+  equal(primeSum(10), 17, "Sum of primes below 10 is 17")
 
-  answer: ->
-    return primeSum(2000000)
+problem.answer = ->
+  return primeSum(2000000)

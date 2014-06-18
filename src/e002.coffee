@@ -13,8 +13,7 @@ find the sum of the even-valued terms.
 
 """
 
-problem.run = ->
-
+problem.answer = ->
   prev = 1
   curr = 1
   sum = 0

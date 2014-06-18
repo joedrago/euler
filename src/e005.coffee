@@ -9,8 +9,7 @@ What is the smallest positive number that is evenly divisible by all of the numb
 
 """
 
-problem.run = ->
-
+problem.answer = ->
   n = 0
   loop
     n += 20 # Probably could be some clever sum of primes between 1-20 or something. I don't care.
