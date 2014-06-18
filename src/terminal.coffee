@@ -59,9 +59,9 @@ class Problem
       window.terminal.echo "[[;#444444;]_______________________________________________________________________________________________]\n"
 
     formattedTitle = $.terminal.format("[[;#ffaa00;]#{@title}]")
-    url = "?c=#{window.args.cmd}%20#{@index}"
+    url = "?c=#{window.args.cmd}_#{@index}"
     if window.args.verbose
-      url += "%20verbose"
+      url += "_verbose"
     window.terminal.echo "<a href=\"#{url}\">#{formattedTitle}</a>", { raw: true }
 
     if window.args.description
