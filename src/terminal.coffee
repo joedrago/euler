@@ -1,4 +1,4 @@
-LAST_PROBLEM = 10
+LAST_PROBLEM = 11
 
 root = window # exports ? this
 
@@ -92,9 +92,9 @@ root.ok = (v, msg) ->
 
 root.equal = (a, b, msg) ->
   if a == b
-    window.terminal.echo "[[;#ffffff;] *  ][[;#555555;]#{msg}]"
+    window.terminal.echo "[[;#ffffff;] *  ][[;#555555;]PASS: #{msg}]"
   else
-    window.terminal.echo "[[;#ffffff;] *  ][[;#ffaaaa;]#{msg}]"
+    window.terminal.echo "[[;#ffffff;] *  ][[;#ffaaaa;]FAIL: #{msg} (#{a} != #{b})]"
 
 root.onCommand = (command) =>
   return if command.length == 0
