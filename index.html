@@ -72,7 +72,7 @@ body {
     startup = ->
       createTerminal()
 
-      firstCommand = getQueryVariable("c", "help").replace("_", " ")
+      firstCommand = getQueryVariable("c", "help").replace(/_/gm, " ")
       window.onCommand(firstCommand)
 
     require("terminal")
