@@ -9,8 +9,10 @@ Find the sum of all the primes below two million.
 
 """
 
+math = require "math"
+
 primeSum = (ceiling) ->
-  sieve = new IncrementalSieve
+  sieve = new math.IncrementalSieve
 
   sum = 0
   loop

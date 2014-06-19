@@ -9,8 +9,10 @@ What is the 10,001st prime number?
 
 """
 
+math = require "math"
+
 nthPrime = (n) ->
-  sieve = new IncrementalSieve
+  sieve = new math.IncrementalSieve
   for i in [1...n]
     sieve.next()
   return sieve.next()
