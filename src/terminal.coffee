@@ -61,7 +61,7 @@ class Problem
     formattedTitle = $.terminal.format("[[;#ffaa00;]#{@title}]")
     url = "?c=#{window.args.cmd}_#{@index}"
     if window.args.verbose
-      url += "_verbose"
+      url += "_v"
     window.terminal.echo "<a href=\"#{url}\">#{formattedTitle}</a>", { raw: true }
 
     if window.args.description
