@@ -44,17 +44,18 @@ collatzChainLength = (startingValue) ->
   # walk back down the trail and cache all the entries found along the way
   len = toBeCached.length
   for v,i in toBeCached
-    cachedChainLength = len - i
-    collatzCache[v] = cachedChainLength
+    collatzCache[v] = collatzCache[n] + (len - i)
 
   return collatzCache[startingValue]
 
 problem.test = ->
-  collatzCache = {}
+  collatzCache = { "1": 1 }
   equal(collatzChainLength(13), 10, "13 has a collatz chain of 10")
+  equal(collatzChainLength(26), 11, "26 has a collatz chain of 11")
+  equal(collatzChainLength( 1),  1, "1 has a collatz chain of 1")
 
 problem.answer = ->
-  collatzCache = {}
+  collatzCache = { "1": 1 }
 
   maxChain = 0
   maxChainLength = 0
