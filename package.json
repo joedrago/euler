@@ -19,6 +19,7 @@
     "coffeeify": "*",
     "mold-source-map": "*",
     "node-watch": "*",
-    "node-static": "*"
+    "node-static": "*",
+    "big-integer": "*"
   }
 }
