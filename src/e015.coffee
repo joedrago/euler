@@ -11,31 +11,14 @@ How many such routes are there through a 20×20 grid?
 
 """
 
-class LatticePath
-  constructor: (@dim) ->
-
-  walkPath: (x, y) ->
-    count = 0
-
-    if (x == @dim) and (y == @dim)
-      count++
-    else
-      if x != @dim
-        count += @walkPath(x + 1, y)
-      if y != @dim
-        count += @walkPath(x, y + 1)
-
-    return count
-
-  countPaths: ->
-    return @walkPath(0, 0)
+math = require "math"
 
 lattice = (n) ->
-  return new LatticePath(n).countPaths()
+  return math.nCr(n * 2, n)
 
 problem.test = ->
   equal(lattice(1), 2, "1x1 lattice has 2 paths")
   equal(lattice(2), 6, "2x2 lattice has 6 paths")
 
 problem.answer = ->
-  return 0 # lattice(20)
+  return lattice(20)

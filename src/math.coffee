@@ -91,3 +91,6 @@ root.factorial = (n) ->
     n--
     f *= n
   return f
+
+root.nCr = (n, r) ->
+  return Math.floor(root.factorial(n) / (root.factorial(r) * root.factorial(n - r)))
