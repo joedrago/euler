@@ -136,6 +136,12 @@ problem.answer = ->
         max.product = p
         max.i = i
         max.j = j
-        max.dir = "diagonal"
+        max.dir = "diagonalR"
+      p = getLineProduct(i, j, -1, 1)
+      if max.product < p
+        max.product = p
+        max.i = i
+        max.j = j
+        max.dir = "diagonalL"
 
   return max
