@@ -44,6 +44,7 @@ generateJSBundle = (cb) ->
     extensions: ['coffee']
   }
   b.transform 'coffeeify'
+  b.transform 'brfs'
   rawFileList = fs.readdirSync("src")
   fileList = []
   for f in rawFileList

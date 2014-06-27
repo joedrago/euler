@@ -17,6 +17,7 @@
   "devDependencies": {
     "browserify": "*",
     "coffeeify": "*",
+    "brfs": "*",
     "mold-source-map": "*",
     "node-watch": "*",
     "node-static": "*",
