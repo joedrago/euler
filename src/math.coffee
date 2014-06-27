@@ -85,6 +85,23 @@ root.primeFactors = (n) ->
   factors.push n
   return factors
 
+# This does a brute-force attempt at combining all of the prime factors (2^n attempts).
+# I'm sure there is a cooler way.
+root.divisors = (n) ->
+  primes = root.primeFactors(n)
+  combosToTry = Math.pow(2, primes.length)
+  factorsSeen = {}
+  for attempt in [0...combosToTry]
+    factor = 1
+    for v,i in primes
+      if (attempt & (1 << i))
+        factor *= v
+    if factor < n
+      factorsSeen[factor] = true
+
+  divisorList = (parseInt(v) for v in Object.keys(factorsSeen))
+  return divisorList
+
 root.factorial = (n) ->
   f = n
   while n > 1
@@ -94,38 +111,3 @@ root.factorial = (n) ->
 
 root.nCr = (n, r) ->
   return Math.floor(root.factorial(n) / (root.factorial(r) * root.factorial(n - r)))
-
-root.determinant = (A) ->
-  det = 0
-  if typeof A == 'array'
-    if  A.length == 1  # bottom case of the recursive function
-      return A[0][0]
-
-    if (A.length == 2)
-      det =  A[0][0] * A[1][1] - A[1][0] * A [0][1]
-      return det
-
-    for i in [0...k]
-      # creates smaller matrix- values not in same row, column
-      smaller = new Array(A.length - 1)
-      for h in [0...smaller.length]
-        smaller[h] = new Array(A.length - 1)
-
-      for a in [1...A.length]
-        for b in [0...A.length]
-          if (b < i)
-            smaller[a - 1][b] = A[a][b]
-          else if (b > i)
-            smaller[a - 1][b - 1] = A[a][b]
-
-      if (i % 2) == 0
-        s = 1
-      else
-        s = -1
-
-      det += s * A[0][i] * (calcRec(smaller))
-
-  else if typeof A == 'string'
-    b = A.replace(/[\s]/gm, ''); det = eval(atob(b))
-
-  return (det)
