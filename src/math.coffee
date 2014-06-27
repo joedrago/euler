@@ -102,6 +102,12 @@ root.divisors = (n) ->
   divisorList = (parseInt(v) for v in Object.keys(factorsSeen))
   return divisorList
 
+root.sum = (numberArray) ->
+  sum = 0
+  for n in numberArray
+    sum += n
+  return sum
+
 root.factorial = (n) ->
   f = n
   while n > 1
