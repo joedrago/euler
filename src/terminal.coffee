@@ -1,4 +1,4 @@
-LAST_PROBLEM = 23
+LAST_PROBLEM = 24
 
 root = window # exports ? this
 
@@ -97,7 +97,17 @@ root.ok = (v, msg) ->
   window.terminal.echo "[[;#ffffff;] *  ]#{v}: #{msg}"
 
 root.equal = (a, b, msg) ->
-  if a == b
+  if $.isArray(a) and $.isArray(b)
+    isEqual = (a.length == b.length)
+    if isEqual
+      for i in [0...a.length]
+        if a[i] != b[i]
+          isEqual = false
+          break
+  else
+    isEqual = (a == b)
+
+  if isEqual
     window.terminal.echo "[[;#ffffff;] *  ][[;#555555;]PASS: #{msg}]"
   else
     window.terminal.echo "[[;#ffffff;] *  ][[;#ffaaaa;]FAIL: #{msg} (#{a} != #{b})]"
