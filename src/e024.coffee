@@ -22,17 +22,49 @@ permute = (current, src, dst) ->
     else
       dst.push newcurrent
 
-lexPermute = (chars) ->
+lexPermuteSlow = (chars) ->
   dst = []
   permute("", chars.split(""), dst)
   dst.sort()
   return dst
 
+swap = (arr, a, b) ->
+  t = arr[a]
+  arr[a] = arr[b]
+  arr[b] = t
+
+dijkstraPermuteNext = (arr) ->
+  N = arr.length
+  i = N - 1
+  while arr[i-1] >= arr[i]
+    i = i-1
+
+  j = N
+  while (arr[j-1] <= arr[i-1])
+    j = j-1
+
+  swap(arr, i-1, j-1)    # swap values at positions (i-1) and (j-1)
+
+  i++
+  j = N
+  while (i < j)
+    swap(arr, i-1, j-1)
+    i++
+    j--
+
+lexPermuteFast = (chars, which) ->
+  arr = (parseInt(v) for v in chars)
+  for i in [1...which]
+    dijkstraPermuteNext(arr)
+  return arr.join("")
+
 problem.test = ->
-  dst = lexPermute("012")
-  console.log dst
-  equal(lexPermute("012"), "012 021 102 120 201 210".split(" "), "permutation of 012 is [012 021 102 120 201 210]")
+  equal(lexPermuteFast("012", 4), "120", "4th permutation of 012 is 120, fast version")
+  equal(lexPermuteSlow("012"), "012 021 102 120 201 210".split(" "), "permutation of 012 is 012 021 102 120 201 210, slow version")
 
 problem.answer = ->
-  dst = lexPermute("0123456789")
-  return dst[999999] # [0] is first, therefore [999999] is 1,000,000th
+  return lexPermuteFast("0123456789", 1000000)
+
+  # slow version, took ~13 seconds on a 2014 Macbook Pro
+  # dst = lexPermuteSlow("0123456789")
+  # return dst[999999] # [0] is first, therefore [999999] is 1,000,000th
