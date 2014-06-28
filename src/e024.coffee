@@ -33,22 +33,22 @@ swap = (arr, a, b) ->
   arr[a] = arr[b]
   arr[b] = t
 
+# Don't ask me, ask Dijkstra's A Discipline of Programming, page 71
 dijkstraPermuteNext = (arr) ->
-  N = arr.length
-  i = N - 1
+  i = arr.length - 1
   while arr[i-1] >= arr[i]
-    i = i-1
+    i--
 
-  j = N
-  while (arr[j-1] <= arr[i-1])
-    j = j-1
+  j = arr.length
+  while arr[j-1] <= arr[i-1]
+    j--
 
-  swap(arr, i-1, j-1)    # swap values at positions (i-1) and (j-1)
+  swap arr, i-1, j-1
 
   i++
-  j = N
-  while (i < j)
-    swap(arr, i-1, j-1)
+  j = arr.length
+  while i < j
+    swap arr, i-1, j-1
     i++
     j--
 
