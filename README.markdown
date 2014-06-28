@@ -1,9 +1,9 @@
 Project Euler
 =============
 
-This is the ever-evolving source to my solutions to Project Euler questions, currently pulled from here:
+This is the ever-evolving source to my solutions to Project Euler questions, available here:
 
-http://projecteuler.co/
+http://projecteuler.net/
 
 A up-to-date build of these solutions is typically available here:
 
