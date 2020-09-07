@@ -31,7 +31,7 @@ problem.answer = ->
   for i in [100..999]
     for j in [100..999]
       product = i * j
-      if isPalindrome(product)
+      if isPalindrome(product) and (product > largestp)
         largesti = i
         largestj = j
         largestp = product
