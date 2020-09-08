@@ -161,6 +161,11 @@ root.onCommand = (command) =>
     args.cmd = "run"
     args.test = true
     args.answer = true
+  else if cmd.name[0] == 's'
+    args.cmd = "show"
+    args.test = true
+    args.answer = true
+    args.description = true
   else if cmd.name[0] == 'd'
     args.cmd = "describe"
     args.description = true
@@ -175,6 +180,7 @@ root.onCommand = (command) =>
         test [X]     - Run unit tests
         answer [X]   - Time and calculate answer
         run [X]      - test and answer combined
+        show [X]     - describe, test, and answer combined
         help         - This help
 
         In all of these, [X] can be a list of one or more problem numbers. (a value from 1 to #{LAST_PROBLEM}). If absent, it implies all problems.

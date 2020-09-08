@@ -42,6 +42,7 @@ generateJSBundle = (cb) ->
   b = browserify {
     basedir: outputDir
     extensions: ['coffee']
+    debug: true
   }
   b.transform 'coffeeify'
   b.transform 'brfs'
@@ -55,7 +56,7 @@ generateJSBundle = (cb) ->
   for module in fileList
     b.require('../src/' + module + ".coffee", { expose: module })
   outputFilename = "#{outputDir}#{name}.js"
-  bundlePipe = b.bundle({ debug: true })
+  bundlePipe = b.bundle()
     .on 'error', (err) ->
       util.log "Error #{err}"
     bundlePipe
@@ -83,13 +84,13 @@ task 'server', 'Run server and watch for changed source files to automatically r
     util.log "Starting server at http://localhost:#{options.port}/"
 
     nodeStatic = require 'node-static'
-    file = new nodeStatic.Server '.'
+    file = new nodeStatic.Server '.', { cache: 0 }
     httpServer = http.createServer (request, response) ->
       request.addListener 'end', ->
         file.serve(request, response);
       .resume()
     httpServer.listen options.port
 
-    watch ['src'], (filename) ->
+    watch ['src'], (evt, filename) ->
       util.log "Source code #{filename} changed, regenerating bundle..."
       buildEverything()

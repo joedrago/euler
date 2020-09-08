@@ -10,17 +10,22 @@
   "engines": {
     "node": ">=0.8.0"
   },
+  "scripts": {
+    "build": "cake build",
+    "serve": "cake server"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/joedrago/euler.git"
   },
   "devDependencies": {
-    "browserify": "*",
-    "coffeeify": "*",
-    "brfs": "*",
-    "mold-source-map": "*",
-    "node-watch": "*",
-    "node-static": "*",
-    "big-integer": "*"
+    "big-integer": "^1.6.48",
+    "brfs": "^2.0.2",
+    "browserify": "^16.5.2",
+    "coffeeify": "^3.0.1",
+    "coffeescript": "^2.5.1",
+    "mold-source-map": "^0.4.0",
+    "node-static": "^0.7.11",
+    "node-watch": "^0.6.4"
   }
 }
