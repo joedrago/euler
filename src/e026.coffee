@@ -37,7 +37,7 @@ loopsAt = (digits, front, len) ->
   return true
 
 # Never leave a text-based tools programmer to solve a math problem
-findRecurringCycle = (denominator) ->
+findRecurringCycleSlow = (denominator) ->
   digits = String(new Decimal(1).dividedBy(denominator))
   digits = digits.replace(/^0./, "")
   digitsLen = digits.length
@@ -62,6 +62,48 @@ findRecurringCycle = (denominator) ->
 
   return cycle
 
+# This began life as someone else's fractionToDecimal() Python code; my homemade version is the slow garbage above
+findRecurringCycleFast = (denominator) ->
+  numerator = 1
+
+  num = denominator
+  num2Factors = 0
+  while num % (2 ** (num2Factors + 1)) == 0
+    num2Factors += 1
+
+  num5Factors = 0
+  while num % (5 ** (num5Factors + 1)) == 0
+      num5Factors += 1
+  nonRecurringCount = Math.max(num2Factors, num5Factors)
+
+  nonRecurringPart = ''
+  while (nonRecurringCount > 0) and (numerator > 0)
+    numerator *= 10
+    nonRecurringPart += String(Math.floor(numerator / denominator))
+    numerator = numerator % denominator
+    nonRecurringCount -= 1
+
+  firstNum = numerator
+  recurringPart = ''
+  while numerator > 0
+    numerator *= 10
+    recurringPart += String(Math.floor(numerator / denominator))
+    numerator %= denominator
+    if numerator == firstNum
+      break
+
+  pretty = "0.#{nonRecurringPart}"
+  if recurringPart.length > 0
+    pretty += '(' + recurringPart + ')'
+
+  cycle =
+    denominator: denominator
+    length: recurringPart.length
+    pretty: pretty
+  return cycle
+
+findRecurringCycle = findRecurringCycleFast
+
 problem.test = ->
   cequal(findRecurringCycle(2),  "!c.pretty!", "0.5", "Recurring cycle length 1/2 : !c.pretty!")
   cequal(findRecurringCycle(3),  "!c.pretty!", "0.(3)", "Recurring cycle length 1/3 : !c.pretty!")
@@ -81,4 +123,4 @@ problem.answer = ->
     if largestLen < cycle.length
       largestLen = cycle.length
       largestCycle = cycle
-  return largestCycle
+  return largestCycle.denominator
