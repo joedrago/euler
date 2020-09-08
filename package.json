@@ -24,6 +24,7 @@
     "browserify": "^16.5.2",
     "coffeeify": "^3.0.1",
     "coffeescript": "^2.5.1",
+    "decimal.js": "^10.2.0",
     "mold-source-map": "^0.4.0",
     "node-static": "^0.7.11",
     "node-watch": "^0.6.4"

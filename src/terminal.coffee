@@ -1,4 +1,4 @@
-LAST_PROBLEM = 25
+LAST_PROBLEM = 26
 
 root = window # exports ? this
 
@@ -96,21 +96,66 @@ root.Problem = Problem
 root.ok = (v, msg) ->
   window.terminal.echo "[[;#ffffff;] *  ]#{v}: #{msg}"
 
-root.equal = (a, b, msg) ->
+# https://coffeescript-cookbook.github.io/chapters/classes_and_objects/type-function
+type = (obj) ->
+  if obj == undefined or obj == null
+    return String obj
+  classToType = {
+    '[object Boolean]': 'boolean',
+    '[object Number]': 'number',
+    '[object String]': 'string',
+    '[object Function]': 'function',
+    '[object Array]': 'array',
+    '[object Date]': 'date',
+    '[object RegExp]': 'regexp',
+    '[object Object]': 'object'
+  }
+  return classToType[Object.prototype.toString.call(obj)]
+
+interp = (msg, a, b, c) ->
+  msg = msg.replace /!([^!]+)!/g, (wholeMatch, lookup) ->
+    v = a
+    vkey = null
+    if m = lookup.match(/([^\.]+)\.([^\.]+)/)
+      if m[1] == 'b'
+        v = b
+      if m[1] == 'c'
+        v = c
+      v = v[m[2]]
+    else
+      if lookup == 'b'
+        v = b
+      if lookup == 'c'
+        v = c
+    switch type(v)
+      when 'object', 'array'
+        return JSON.stringify(v)
+    return String(v)
+  return msg
+
+root.cequal = (calc, a, b, msg) ->
+  if calc != null
+    a = interp(a, calc, calc, calc)
+
   if $.isArray(a) and $.isArray(b)
     isEqual = (a.length == b.length)
     if isEqual
       for i in [0...a.length]
-        if a[i] != b[i]
+        if String(a[i]) != String(b[i])
           isEqual = false
           break
   else
-    isEqual = (a == b)
+    isEqual = (String(a) == String(b))
+
+  msg = interp(msg, a, b, calc)
 
   if isEqual
     window.terminal.echo "[[;#ffffff;] *  ][[;#555555;]PASS: #{msg}]"
   else
     window.terminal.echo "[[;#ffffff;] *  ][[;#ffaaaa;]FAIL: #{msg} (#{a} != #{b})]"
+
+root.equal = (a, b, msg) ->
+  return root.cequal(null, a, b, msg)
 
 root.onCommand = (command) =>
   return if command.length == 0
